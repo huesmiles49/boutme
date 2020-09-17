@@ -61,5 +61,9 @@ $ npx pod-install ios
 ## Run the app
 
 ```bash
+# 1. Make sure you're on master-ios
+$ git checkout master-ios
+
+# 2. Run app
 $ react-native run-ios
 ```
