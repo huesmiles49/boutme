@@ -1,5 +1,3 @@
-# boutme
-A demo profile app using React Native
 # Bout Me App
 
 > A simple demo app of what [React Native](https://reactnative.dev/) can do. \
