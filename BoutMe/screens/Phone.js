@@ -15,27 +15,23 @@ import {
   Input
 } from 'react-native-elements';
 
-export default class Name extends React.Component {
+export default class Phone extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      firstName: '',
-      lastName: '',
+      phone: ''
     }
-    this.firstName = ''
-    this.lastName = ''
+    this.phone = ''
   }
 
   async componentDidMount() {
     try {
-      let name_stored = await AsyncStorage.getItem('name')
-      let name = JSON.parse(name_stored)
-      let nameArr = name.detail.split(' ')
+      let phone_stored = await AsyncStorage.getItem('phone')
+      let phone = JSON.parse(phone_stored)
 
       this.setState({
-        firstName: nameArr[0],
-        lastName: nameArr[1]
+        phone: phone.detail
       })
 
     } catch (e) {
@@ -43,21 +39,22 @@ export default class Name extends React.Component {
     }
   }
 
-  updateName = async () => {    
+  updatePhone = async () => {
+    console.log(this.phone)
+
     try {
-      let nameData = {
-        label: 'Name',
-        detail: this.firstName + ' ' + this.lastName,
-        editRoute: 'NameScreen'
+      let phoneData = {
+        label: 'Phone',
+        detail: this.phone,
+        editRoute: 'PhoneScreen'
       }
 
       // Store data
-      await AsyncStorage.setItem('name', JSON.stringify(nameData))
+      await AsyncStorage.setItem('phone', JSON.stringify(phoneData))
 
-      // Render the new name
+      // Render the new phone
       this.setState({
-        firstName: this.firstName,
-        lastName: this.lastName
+        phone: this.phone
       })
 
       // Redirect to home screen
@@ -82,29 +79,20 @@ export default class Name extends React.Component {
                 justifyContent:"center"
               }}
             >
-              <Text style={styles.header}>What's your name?</Text>
+              <Text style={styles.header}>What's your phone number?</Text>
             </View>
 
             <View style={styles.input}>
               <Input
-                onChangeText={(text) => this.firstName = text}
-                label="First Name"
+                onChangeText={(text) => this.phone = text}
+                label="Your phone number"
                 inputContainerStyle={styles.inputContainerStyle}
                 containerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
-                placeholderTextColor="#a5a8ad"
+                placeholderTextColor={"#a5a8ad"}
                 autoCorrect={false}
-                placeholder={this.state.firstName}
-              />
-
-              <Input
-                onChangeText={(text) => this.lastName = text}
-                label="Last Name"
-                inputContainerStyle={styles.inputContainerStyle}
-                inputStyle={styles.inputStyle}
-                placeholderTextColor="#a5a8ad"
-                autoCorrect={false}
-                placeholder={this.state.lastName}
+                keyboardType={"number-pad"}
+                placeholder={this.state.phone}
               />
             </View>
 
@@ -112,7 +100,7 @@ export default class Name extends React.Component {
               <Button
                 title="Update"
                 buttonStyle={styles.updateBtn}
-                onPress={() => this.updateName()} />
+                onPress={() => this.updatePhone()} />
             </View>
           </ScrollView>
         </SafeAreaView>

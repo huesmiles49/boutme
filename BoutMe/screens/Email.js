@@ -15,27 +15,23 @@ import {
   Input
 } from 'react-native-elements';
 
-export default class Name extends React.Component {
+export default class Email extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      firstName: '',
-      lastName: '',
+      email: ''
     }
-    this.firstName = ''
-    this.lastName = ''
+    this.email = ''
   }
 
   async componentDidMount() {
     try {
-      let name_stored = await AsyncStorage.getItem('name')
-      let name = JSON.parse(name_stored)
-      let nameArr = name.detail.split(' ')
+      let email_stored = await AsyncStorage.getItem('email')
+      let email = JSON.parse(email_stored)
 
       this.setState({
-        firstName: nameArr[0],
-        lastName: nameArr[1]
+        email: email.detail
       })
 
     } catch (e) {
@@ -43,21 +39,22 @@ export default class Name extends React.Component {
     }
   }
 
-  updateName = async () => {    
+  updateEmail = async () => {
+    console.log(this.email)
+
     try {
-      let nameData = {
-        label: 'Name',
-        detail: this.firstName + ' ' + this.lastName,
-        editRoute: 'NameScreen'
+      let emailData = {
+        label: 'Email',
+        detail: this.email,
+        editRoute: 'EmailScreen'
       }
 
       // Store data
-      await AsyncStorage.setItem('name', JSON.stringify(nameData))
+      await AsyncStorage.setItem('email', JSON.stringify(emailData))
 
-      // Render the new name
+      // Render the new phone
       this.setState({
-        firstName: this.firstName,
-        lastName: this.lastName
+        email: this.email
       })
 
       // Redirect to home screen
@@ -82,29 +79,20 @@ export default class Name extends React.Component {
                 justifyContent:"center"
               }}
             >
-              <Text style={styles.header}>What's your name?</Text>
+              <Text style={styles.header}>What's your email?</Text>
             </View>
 
             <View style={styles.input}>
               <Input
-                onChangeText={(text) => this.firstName = text}
-                label="First Name"
+                onChangeText={(text) => this.email = text}
+                label="Your email address"
                 inputContainerStyle={styles.inputContainerStyle}
                 containerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
-                placeholderTextColor="#a5a8ad"
                 autoCorrect={false}
-                placeholder={this.state.firstName}
-              />
-
-              <Input
-                onChangeText={(text) => this.lastName = text}
-                label="Last Name"
-                inputContainerStyle={styles.inputContainerStyle}
-                inputStyle={styles.inputStyle}
-                placeholderTextColor="#a5a8ad"
-                autoCorrect={false}
-                placeholder={this.state.lastName}
+                keyboardType={"email-address"}
+                placeholderTextColor={"#a5a8ad"}
+                placeholder={this.state.email}
               />
             </View>
 
@@ -112,7 +100,7 @@ export default class Name extends React.Component {
               <Button
                 title="Update"
                 buttonStyle={styles.updateBtn}
-                onPress={() => this.updateName()} />
+                onPress={() => this.updateEmail()} />
             </View>
           </ScrollView>
         </SafeAreaView>

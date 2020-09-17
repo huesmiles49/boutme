@@ -15,27 +15,24 @@ import {
   Input
 } from 'react-native-elements';
 
-export default class Name extends React.Component {
+export default class Bio extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      firstName: '',
-      lastName: '',
+      bio: '',
+      textColor: '#a5a8ad'
     }
-    this.firstName = ''
-    this.lastName = ''
+    this.bio = ''
   }
 
   async componentDidMount() {
     try {
-      let name_stored = await AsyncStorage.getItem('name')
-      let name = JSON.parse(name_stored)
-      let nameArr = name.detail.split(' ')
-
+      let bio_stored = await AsyncStorage.getItem('bio')
+      let bio = JSON.parse(bio_stored)
+      
       this.setState({
-        firstName: nameArr[0],
-        lastName: nameArr[1]
+        bio: bio.detail
       })
 
     } catch (e) {
@@ -43,21 +40,22 @@ export default class Name extends React.Component {
     }
   }
 
-  updateName = async () => {    
+  updateBio = async () => {
+    console.log(this.bio)
+
     try {
-      let nameData = {
-        label: 'Name',
-        detail: this.firstName + ' ' + this.lastName,
-        editRoute: 'NameScreen'
+      let bioData = {
+        label: 'Tell us about yourself',
+        detail: this.bio,
+        editRoute: 'BioScreen'
       }
 
       // Store data
-      await AsyncStorage.setItem('name', JSON.stringify(nameData))
+      await AsyncStorage.setItem('bio', JSON.stringify(bioData))
 
-      // Render the new name
+      // Render the new phone
       this.setState({
-        firstName: this.firstName,
-        lastName: this.lastName
+        bio: this.bio
       })
 
       // Redirect to home screen
@@ -82,29 +80,19 @@ export default class Name extends React.Component {
                 justifyContent:"center"
               }}
             >
-              <Text style={styles.header}>What's your name?</Text>
+              <Text style={styles.header}>What is your favorite adventure?</Text>
             </View>
 
             <View style={styles.input}>
               <Input
-                onChangeText={(text) => this.firstName = text}
-                label="First Name"
+                onChangeText={(text) => this.bio = text}
+                multiline={true}
                 inputContainerStyle={styles.inputContainerStyle}
                 containerStyle={styles.inputContainer}
                 inputStyle={styles.inputStyle}
-                placeholderTextColor="#a5a8ad"
                 autoCorrect={false}
-                placeholder={this.state.firstName}
-              />
-
-              <Input
-                onChangeText={(text) => this.lastName = text}
-                label="Last Name"
-                inputContainerStyle={styles.inputContainerStyle}
-                inputStyle={styles.inputStyle}
-                placeholderTextColor="#a5a8ad"
-                autoCorrect={false}
-                placeholder={this.state.lastName}
+                textAlignVertical={"top"}
+                defaultValue={this.state.bio}
               />
             </View>
 
@@ -112,7 +100,7 @@ export default class Name extends React.Component {
               <Button
                 title="Update"
                 buttonStyle={styles.updateBtn}
-                onPress={() => this.updateName()} />
+                onPress={() => this.updateBio()} />
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -128,12 +116,13 @@ const styles = StyleSheet.create({
   },
   input: {
     marginLeft: 30,
-    marginRight: 30
+    marginRight: 30,
   },
   inputContainerStyle: {
-    borderColor: 'black',
+    borderColor: '#e0e0e0',
     borderWidth: 1,
-    marginTop: 10
+    marginTop: 10,
+    height: 170
   },
   inputContainer: {
     marginTop: 20

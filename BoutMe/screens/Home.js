@@ -1,11 +1,11 @@
 import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage'
 
 import {
   SafeAreaView,
   StyleSheet,
   View,
   StatusBar,
-  TouchableHighlight
 } from 'react-native';
 
 import {
@@ -14,101 +14,193 @@ import {
   Icon,
   ListItem
 } from 'react-native-elements';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Home extends React.Component {
   constructor() {
     super();
-  }
 
-  render() {
-    const list = [{
-        name: 'Amy Farha',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-        subtitle: 'Vice President'
+    // initialize
+    this.userData = []
+    this.userPhoto = {}
+
+    this.dummyData = [
+      {
+        label: 'Name',
+        detail: 'Bout Me',
+        editRoute: 'NameScreen'
       },
       {
-        name: 'Chris Jackson',
-        avatar_url: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-        subtitle: 'Vice Chairman'
+        label: 'Phone',
+        detail: '000-000-000',
+        editRoute: 'PhoneScreen'
+      },
+      {
+        label: 'Email',
+        detail: 'boutMe@gmail.com',
+        editRoute: 'EmailScreen'
+      },
+      {
+        label: 'Bio',
+        detail: 'This profile is all about me!',
+        editRoute: 'BioScreen'
       }
     ]
 
+    this.dummyPhoto = {
+      label: 'Photo',
+      detail: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+      editRoute: 'PhotoScreen'
+    }
+
+    this.state = {
+      data: [],
+      photo: {}
+    }
+
+  }
+
+  async componentDidMount() {
+    try {
+      let photo_stored = await AsyncStorage.getItem('photo')
+      let name_stored = await AsyncStorage.getItem('name')
+      let phone_stored = await AsyncStorage.getItem('phone')
+      let email_stored = await AsyncStorage.getItem('email')
+      let bio_stored = await AsyncStorage.getItem('bio')
+
+      let photo = JSON.parse(photo_stored)
+      let name = JSON.parse(name_stored)
+      let phone = JSON.parse(phone_stored)
+      let email = JSON.parse(email_stored)
+      let bio = JSON.parse(bio_stored)
+
+      // Set Photo
+      this.userPhoto = photo ? photo : this.dummyPhoto
+
+      // Create list to render
+      this.userData[0] = name ? name : this.dummyData[0]
+      this.userData[1] = phone ? phone : this.dummyData[1]
+      this.userData[2] = email ? email : this.dummyData[2]
+      this.userData[3] = bio ? bio : this.dummyData[3]
+      
+      this.setState({
+        data: this.userData,
+        photo: this.userPhoto
+      })
+
+    } catch (e) {
+      console.log('Unable to get data', e)
+    }
+  }
+
+  async componentDidUpdate() {
+    try {
+      let photo_stored = await AsyncStorage.getItem('photo')
+      let name_stored = await AsyncStorage.getItem('name')
+      let phone_stored = await AsyncStorage.getItem('phone')
+      let email_stored = await AsyncStorage.getItem('email')
+      let bio_stored = await AsyncStorage.getItem('bio')
+
+      let photo = JSON.parse(photo_stored)
+      let name = JSON.parse(name_stored)
+      let phone = JSON.parse(phone_stored)
+      let email = JSON.parse(email_stored)
+      let bio = JSON.parse(bio_stored)
+
+      // Set Photo
+      this.userPhoto = photo ? photo : this.dummyPhoto
+
+      // Create list to render
+      this.userData[0] = name ? name : this.dummyData[0]
+      this.userData[1] = phone ? phone : this.dummyData[1]
+      this.userData[2] = email ? email : this.dummyData[2]
+      this.userData[3] = bio ? bio : this.dummyData[3]
+
+      this.setState({
+        data: this.userData,
+        photo: this.userPhoto
+      })
+
+    } catch (e) {
+      console.log('Unable to get data', e)
+    }
+  }
+
+  render() {
     return (
       <>
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
-          <View
-            style={{
-              marginTop: 60,
-              marginBottom: 10,
-              flexDirection:"row",
-              justifyContent:"center"
-            }}
-          >
-            <Text style={{color: "#226de6", fontWeight: "bold"}} h4>Edit Profile</Text>
-          </View>
-
-          <View
-            style={{
-              marginTop: 10,
-              flexDirection:"row",
-              justifyContent:"center"
-            }}
-          >
-            <Avatar
-              rounded
-              size="xlarge"
-              overlayContainerStyle={{borderColor: "#226de6", borderWidth: 5}}
-              source={{
-                uri:
-                  'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+          <ScrollView>
+            <View
+              style={{
+                marginTop: 60,
+                marginBottom: 10,
+                flexDirection:"row",
+                justifyContent:"center"
               }}
-              onPress={() => console.log("Works!")}
-              >
-            </Avatar>
-            <Icon
-              raised
-              name='mode-edit'
-              type='material'
-              color='#226de6'
-              size={20}
-              containerStyle={{position: 'absolute', right: 120, top: -5}}
-              onPress={() => console.log('hello')} />
-          </View>
-          
-          <View 
-            style = {
-              {
-                flexDirection: 'column',
-                justifyContent: 'center',
-                marginLeft: 20,
-                marginRight: 20,
-                marginTop: 20
+            >
+              <Text style={{color: "#226de6", fontWeight: "bold"}} h4>Edit Profile</Text>
+            </View>
+
+            <View
+              style={{
+                marginTop: 10,
+                flexDirection:"row",
+                justifyContent:"center"
+              }}
+            >
+              <Avatar
+                rounded
+                size="xlarge"
+                overlayContainerStyle={{borderColor: "#226de6", borderWidth: 5}}
+                source={{
+                  uri: this.state.photo.detail,
+                }}
+                onPress={() => this.props.navigation.navigate('PhotoScreen')}
+                >
+                  <Icon
+                raised
+                name='mode-edit'
+                type='material'
+                color='#226de6'
+                size={20}
+                containerStyle={{position: 'absolute', right: 0, top: -5}} />
+              </Avatar>
+            </View>
+            
+            <View 
+              style = {
+                {
+                  flexDirection: 'column',
+                  justifyContent: 'center',
+                  marginLeft: 20,
+                  marginRight: 20,
+                  marginTop: 20,
+                }
               }
-            }
-          >
-            {
-              list.map((l, i) => (
-                <ListItem
-                  button
-                  underlayColor="black"
-                  onPress={() => console.log(i)}
-                  key={i}
-                  bottomDivider>
-                  <ListItem.Content>
-                      <ListItem.Title>Name</ListItem.Title>
-                      <ListItem.Subtitle>{l.subtitle}</ListItem.Subtitle>
-                  </ListItem.Content>
-                  <ListItem.Chevron
-                    name="chevron-right"
-                    type="font-awesome"
-                    size={20}
-                    color="#c9ccd1" />
-                </ListItem>
-              ))
-            }
-          </View>
-          
+            >
+              {this.state.data.map((l, i) => (
+                  <ListItem
+                    button
+                    underlayColor="black"
+                    onPress={() => this.props.navigation.navigate(l.editRoute)}
+                    key={i}
+                    bottomDivider>
+                    <ListItem.Content>
+                      <ListItem.Title style={styles.listItem}>{l.label}</ListItem.Title>
+                      <ListItem.Subtitle>{l.detail}</ListItem.Subtitle>
+                    </ListItem.Content>
+                    <ListItem.Chevron
+                      name="chevron-right"
+                      type="font-awesome"
+                      size={20}
+                      color="#c9ccd1" />
+                  </ListItem>
+                ))
+              }
+            </View>
+          </ScrollView>
         </SafeAreaView>
       </>
     );
@@ -116,9 +208,10 @@ export default class Home extends React.Component {
 };
 
 const styles = StyleSheet.create({
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
+  listItem: {
+    fontWeight: 'bold',
+    fontSize: 13,
+    marginBottom: 8
+  }
 });
 
