@@ -21,7 +21,7 @@ export default class Photo extends React.Component {
     super();
 
     this.state = {
-      photo: 'https://i.pinimg.com/originals/10/b2/f6/10b2f6d95195994fca386842dae53bb2.png'
+      photo: 'https://i.pinimg.com/originals/11/fb/bc/11fbbc8b7897996b3ae4cc28ba19a57f.gif'
     }
     this.photo = ''
   }
@@ -131,7 +131,15 @@ const styles = StyleSheet.create({
     marginBottom: 30
   },
   updateBtn: {
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   updateBtnContainer: {
     marginLeft: 30,

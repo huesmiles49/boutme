@@ -12,8 +12,8 @@ import {
 import {
   Text,
   Avatar,
-  Icon,
-  ListItem
+  ListItem,
+  Icon
 } from 'react-native-elements';
 
 export default class Home extends React.Component {
@@ -49,7 +49,7 @@ export default class Home extends React.Component {
 
     this.dummyPhoto = {
       label: 'Photo',
-      detail: 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
+      detail: 'https://i.pinimg.com/originals/11/fb/bc/11fbbc8b7897996b3ae4cc28ba19a57f.gif',
       editRoute: 'PhotoScreen'
     }
 
@@ -178,8 +178,8 @@ export default class Home extends React.Component {
                     key={i}
                     bottomDivider>
                     <ListItem.Content>
-                      <ListItem.Title style={styles.listItem}>{l.label}</ListItem.Title>
-                      <ListItem.Subtitle>{l.detail}</ListItem.Subtitle>
+                      <ListItem.Title style={styles.listTitle}>{l.label}</ListItem.Title>
+                      <ListItem.Subtitle style={styles.listSubtitle}>{l.detail}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron
                       name={"chevron-right"}
@@ -209,7 +209,8 @@ const styles = StyleSheet.create({
   icon: {
     position: 'absolute',
     right: 0,
-    top: -5
+    top: -5,
+    zIndex: 50
   },
   listContainer: {
     flexDirection: 'column',
@@ -218,10 +219,16 @@ const styles = StyleSheet.create({
     marginRight: 20,
     marginTop: 20,
   },
-  listItem: {
+  listTitle: {
     fontWeight: 'bold',
     fontSize: 13,
-    marginBottom: 8
+    marginBottom: 8,
+    color: '#a8a8a8'
+  },
+  listSubtitle: {
+    color: '#4d4d4d',
+    fontWeight: 'bold',
+    fontSize: 13
   }
 });
 

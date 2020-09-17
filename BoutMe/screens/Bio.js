@@ -72,14 +72,7 @@ export default class Bio extends React.Component {
         <StatusBar barStyle="dark-content" />
         <SafeAreaView>
           <ScrollView>
-            <View
-              style={{
-                marginTop: 60,
-                marginBottom: 10,
-                flexDirection:"row",
-                justifyContent:"center"
-              }}
-            >
+            <View style={styles.headerContainer}>
               <Text style={styles.header}>What is your favorite adventure?</Text>
             </View>
 
@@ -99,6 +92,7 @@ export default class Bio extends React.Component {
             <View style={styles.btnContainer}>
               <Button
                 title="Update"
+                raised
                 buttonStyle={styles.updateBtn}
                 onPress={() => this.updateBio()} />
             </View>
@@ -110,6 +104,14 @@ export default class Bio extends React.Component {
 };
 
 const styles = StyleSheet.create({
+  headerContainer: {
+    marginTop: 60,
+    marginBottom: 10,
+    marginLeft: 40,
+    marginRight: 20,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
   header:{
     fontSize: 25,
     fontWeight: "bold"
@@ -137,7 +139,14 @@ const styles = StyleSheet.create({
   },
   updateBtn: {
     backgroundColor: 'black',
-    marginTop: 20
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   }
 });
 

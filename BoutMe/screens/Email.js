@@ -99,6 +99,7 @@ export default class Email extends React.Component {
             <View style={styles.btnContainer}>
               <Button
                 title="Update"
+                raised
                 buttonStyle={styles.updateBtn}
                 onPress={() => this.updateEmail()} />
             </View>
@@ -136,7 +137,14 @@ const styles = StyleSheet.create({
   },
   updateBtn: {
     backgroundColor: 'black',
-    marginTop: 20
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.29,
+    shadowRadius: 4.65,
+    elevation: 7,
   }
 });
 
