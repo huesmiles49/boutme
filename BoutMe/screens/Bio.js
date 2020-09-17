@@ -53,7 +53,7 @@ export default class Bio extends React.Component {
       // Store data
       await AsyncStorage.setItem('bio', JSON.stringify(bioData))
 
-      // Render the new phone
+      // Render the new bio
       this.setState({
         bio: this.bio
       })

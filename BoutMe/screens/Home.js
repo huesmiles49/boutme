@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
   StatusBar,
+  ScrollView
 } from 'react-native';
 
 import {
@@ -14,7 +15,6 @@ import {
   Icon,
   ListItem
 } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Home extends React.Component {
   constructor() {
@@ -129,7 +129,7 @@ export default class Home extends React.Component {
   render() {
     return (
       <>
-        <StatusBar barStyle="dark-content" />
+        <StatusBar barStyle={"dark-content"} />
         <SafeAreaView>
           <ScrollView>
             <View
@@ -140,7 +140,7 @@ export default class Home extends React.Component {
                 justifyContent:"center"
               }}
             >
-              <Text style={{color: "#226de6", fontWeight: "bold"}} h4>Edit Profile</Text>
+              <Text style={styles.header} h4>Edit Profile</Text>
             </View>
 
             <View
@@ -152,38 +152,28 @@ export default class Home extends React.Component {
             >
               <Avatar
                 rounded
-                size="xlarge"
-                overlayContainerStyle={{borderColor: "#226de6", borderWidth: 5}}
+                size={"xlarge"}
+                overlayContainerStyle={styles.avatarContainer}
                 source={{
                   uri: this.state.photo.detail,
                 }}
                 onPress={() => this.props.navigation.navigate('PhotoScreen')}
                 >
                   <Icon
-                raised
-                name='mode-edit'
-                type='material'
-                color='#226de6'
-                size={20}
-                containerStyle={{position: 'absolute', right: 0, top: -5}} />
+                    raised
+                    name={'mode-edit'}
+                    type={'material'}
+                    color={'#226de6'}
+                    size={20}
+                    containerStyle={styles.icon} />
               </Avatar>
             </View>
             
-            <View 
-              style = {
-                {
-                  flexDirection: 'column',
-                  justifyContent: 'center',
-                  marginLeft: 20,
-                  marginRight: 20,
-                  marginTop: 20,
-                }
-              }
-            >
+            <View style = {styles.listContainer}>
               {this.state.data.map((l, i) => (
                   <ListItem
                     button
-                    underlayColor="black"
+                    underlayColor={"#fff"}
                     onPress={() => this.props.navigation.navigate(l.editRoute)}
                     key={i}
                     bottomDivider>
@@ -192,10 +182,10 @@ export default class Home extends React.Component {
                       <ListItem.Subtitle>{l.detail}</ListItem.Subtitle>
                     </ListItem.Content>
                     <ListItem.Chevron
-                      name="chevron-right"
-                      type="font-awesome"
+                      name={"chevron-right"}
+                      type={"font-awesome"}
                       size={20}
-                      color="#c9ccd1" />
+                      color={"#c9ccd1"} />
                   </ListItem>
                 ))
               }
@@ -208,6 +198,26 @@ export default class Home extends React.Component {
 };
 
 const styles = StyleSheet.create({
+  header: {
+    color: "#6e88e6",
+    fontWeight: "bold"
+  },
+  avatarContainer: {
+    borderColor: "#6e88e6",
+    borderWidth: 3
+  },
+  icon: {
+    position: 'absolute',
+    right: 0,
+    top: -5
+  },
+  listContainer: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 20,
+  },
   listItem: {
     fontWeight: 'bold',
     fontSize: 13,

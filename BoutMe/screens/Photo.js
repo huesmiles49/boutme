@@ -1,10 +1,13 @@
 import React from 'react';
+import AsyncStorage from '@react-native-community/async-storage'
+import ImagePicker from 'react-native-image-picker'
 
 import {
   SafeAreaView,
   StyleSheet,
   View,
-  StatusBar
+  StatusBar,
+  ScrollView
 } from 'react-native';
 
 import {
@@ -12,19 +15,73 @@ import {
   Image,
   Button
 } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
 
 export default class Photo extends React.Component {
   constructor() {
     super();
+
+    this.state = {
+      photo: 'https://i.pinimg.com/originals/10/b2/f6/10b2f6d95195994fca386842dae53bb2.png'
+    }
+    this.photo = ''
   }
 
-  // Find a library to open Photo
-  selectImage() {}
+  async componentDidMount() {
+    try {
+      let photo_stored = await AsyncStorage.getItem('photo')
+      let photo = JSON.parse(photo_stored)
+      
+      this.setState({
+        photo: photo.detail
+      })
+
+    } catch (e) {
+      console.log('Unable to get data', e)
+    }
+  }
+
+  async selectImage() {
+    ImagePicker.launchImageLibrary({}, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker')
+
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error)
+        
+      } else {
+        this.photo = 'data:image/jpeg;base64,' + response.data
+        this.setState({
+          photo: 'data:image/jpeg;base64,' + response.data,
+        })
+      }
+    })
+  }
+
+  async updateImage() {
+    try {
+      let photoData = {
+        label: 'Photo',
+        detail: this.photo,
+        editRoute: 'PhotoScreen'
+      }
+
+      // Store data
+      await AsyncStorage.setItem('photo', JSON.stringify(photoData))
+
+      // Render the new photo
+      this.setState({
+        photo: this.photo
+      })
+
+      // Redirect to home screen
+      this.props.navigation.navigate('HomeScreen')
+
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   render() {
-    image = 'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg'
-
     return (
       <>
         <StatusBar barStyle="dark-content" />
@@ -42,11 +99,14 @@ export default class Photo extends React.Component {
             </View>
 
             <View style={styles.imageContainer}>
-              <Image style={styles.image} source={{uri: image}} onPress={() => this.selectImage()} />
+              <Image
+                style={styles.image}
+                source={{uri: this.state.photo}}
+                onPress={() => this.selectImage()} />
             </View>
 
             <View style={styles.updateBtnContainer}>
-              <Button title="Update" raised buttonStyle={styles.updateBtn} onPress={() => console.log('update image')} />
+              <Button title="Update" raised buttonStyle={styles.updateBtn} onPress={() => this.updateImage()} />
             </View>
           </ScrollView>
         </SafeAreaView>
@@ -57,7 +117,6 @@ export default class Photo extends React.Component {
 
 const styles = StyleSheet.create({
   header: {
-    color: "#226de6",
     fontWeight: "bold",
     fontSize: 25
   },

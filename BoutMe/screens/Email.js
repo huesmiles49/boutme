@@ -52,7 +52,7 @@ export default class Email extends React.Component {
       // Store data
       await AsyncStorage.setItem('email', JSON.stringify(emailData))
 
-      // Render the new phone
+      // Render the new email
       this.setState({
         email: this.email
       })
