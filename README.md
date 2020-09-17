@@ -10,7 +10,7 @@ A demo profile app using React Native
 <br />
 
 <p align="center">
-  <img width="300" height="500" src="https://github.com/huesmiles49/boutme/blob/master-ios/BoutMe/assets/images/demo-pic-ios.png">
+  <img width="300" height="500" src="https://github.com/huesmiles49/boutme/blob/master/BoutMe/assets/images/demo-pic-ios.png">
 </p>
 
 <br />
