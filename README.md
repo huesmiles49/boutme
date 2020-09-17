@@ -1,2 +1,2 @@
-# boutme
-A demo profile app using React Native
+# Bout Me App
+This app 
