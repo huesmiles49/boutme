@@ -8,7 +8,7 @@
 <br />
 
 <p align="center">
-  <img width="460" height="300" src="https://github.com/huesmiles49/boutme/blob/master-android/BoutMe/assets/images/demo-pic-android.png">
+  <img width="430" height="500" src="https://github.com/huesmiles49/boutme/blob/master-android/BoutMe/assets/images/demo-pic-android.png">
 </p>
 
 <br />
@@ -49,13 +49,16 @@ $ npm install -g react-native-cli
 # 1. Clone project
 $ git clone https://github.com/huesmiles49/boutme.git
 
-# 2. Navigate to project
+# 2. Switch to Android branch
+$ git checkout master-android
+
+# 3. Navigate to project
 $ cd boutme/BoutMe 
 
-# 3. Install Node packages
+# 4. Install Node packages
 $ npm install
 
-# 4. Link resources
+# 5. Link resources
 $ react-native link
 ```
 <br />
@@ -63,5 +66,9 @@ $ react-native link
 ## Run the app
 
 ```bash
+# 1. Make sure you're on master-android
+$ git checkout master-android
+
+# 2. Run app
 $ react-native run-android
 ```
